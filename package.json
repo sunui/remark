@@ -13,8 +13,7 @@
     "stringify",
     "process"
   ],
-  "homepage": "https://remark.js.org",
-  "repository": "https://github.com/remarkjs/remark/tree/master/packages/remark",
+  "repository": "https://github.com/sunui/remark",
   "bugs": "https://github.com/remarkjs/remark/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
