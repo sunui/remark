@@ -3,7 +3,7 @@
 module.exports = emphasis
 
 var underscore = '_'
-var asterisk = '*'
+var asterisk = '**'
 
 // Stringify an `emphasis`.
 //

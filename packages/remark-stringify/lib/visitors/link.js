@@ -43,10 +43,10 @@ function link(node) {
 
   exit()
 
-  if (node.title == null && protocol.test(content) && escaped === value) {
+  // if (node.title == null && protocol.test(content) && escaped === value) {
     // Backslash escapes do not work in autolinks, so we do not escape.
-    return uri(self.encode(node.url), true)
-  }
+    // return uri(self.encode(node.url), true)
+  // }
 
   content = uri(content)
 
