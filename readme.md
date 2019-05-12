@@ -1,4 +1,4 @@
-# ![remark][logo]
+# remark
 
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
@@ -8,8 +8,16 @@
 [![Sponsors][sponsors-badge]][collective]
 [![Backers][backers-badge]][collective]
 
-**remark** is a markdown processor powered by [plugins][] part of the
+[**remark**][remark] is a markdown processor powered by [plugins][] part of the
 [unified][] [collective][].
+
+*   API by [`unified`][unified]
+*   Parses markdown to the tree with [`remark-parse`][parse]
+*   [**mdast**][mdast] syntax tree
+*   [Plugins][] transform the tree
+*   Compiles the tree to markdown using [`remark-stringify`][stringify]
+
+Don’t need the parser?  Or the compiler?  [That’s OK][unified-usage].
 
 * * *
 
@@ -48,52 +56,98 @@
   </tr>
 </table>
 
-## Intro
+## Installation
 
-**remark** not another markdown to HTML compiler.
-It can generate and reformat markdown too.
-Powered by plugins to do all kinds of things: [check markdown code
-style][remark-lint], [transform safely to React][remark-react], [add a table of
-contents][remark-toc], or [compile to man pages][remark-man].
+[npm][]:
 
-*   Visit [`unified.js.org`][website] and try its [guides][] for an overview
-*   Read [unified][]’s readme for a technical intro
-*   Browse [awesome remark][awesome] to find out more about the ecosystem
-*   Follow us on [Medium][] and [Twitter][] to see what we’re up to
-*   Check out [Contribute][] below to find out how to help out
+```sh
+npm install remark
+```
 
-This repository contains the following projects:
+## Usage
 
-*   [`remark-parse`][parse] — Parse a markdown document to a syntax tree
-*   [`remark-stringify`][stringify]
-    — Stringify a syntax tree to a markdown document
-*   [`remark`][api] — Programmatic interface with both `remark-parse` and `remark-stringify`
-*   [`remark-cli`][cli] — Command-line interface wrapping `remark`
+###### Common example
 
-## Contribute
+This example lints markdown and turns it into HTML.
 
-**remark** is built by people just like you!
-Check out [`contributing.md`][contributing] for ways to get started.
+```js
+var remark = require('remark')
+var recommended = require('remark-preset-lint-recommended')
+var html = require('remark-html')
+var report = require('vfile-reporter')
 
-This project has a [Code of Conduct][coc].
-By interacting with this repository, organisation, or community you agree to
-abide by its terms.
+remark()
+  .use(recommended)
+  .use(html)
+  .process('## Hello world!', function(err, file) {
+    console.error(report(err || file))
+    console.log(String(file))
+  })
+```
 
-Want to chat with the community and contributors?
-Join us in [spectrum][chat]!
+Yields:
 
-Have an idea for a cool new utility or tool?
-That’s great!
-If you want feedback, help, or just to share it with the world you can do so by
-creating an issue in the [`remarkjs/ideas`][ideas] repository!
+```txt
+1:1  warning  Missing newline character at end of file  final-newline  remark-lint
+
+⚠ 1 warning
+```
+
+```html
+<h2>Hello world!</h2>
+```
+
+###### Settings through data
+
+This example prettifies markdown and configures [`remark-parse`][parse] and
+[`remark-stringify`][stringify] through [data][].
+
+```js
+var remark = require('remark')
+
+remark()
+  .data('settings', {commonmark: true, emphasis: '*', strong: '*'})
+  .process('_Emphasis_ and __importance__', function(err, file) {
+    if (err) throw err
+    console.log(String(file))
+  })
+```
+
+Yields:
+
+```markdown
+*Emphasis* and **importance**
+```
+
+###### Settings through a preset
+
+This example prettifies markdown and configures [`remark-parse`][parse] and
+[`remark-stringify`][stringify] through a [preset][].
+
+```js
+var remark = require('remark')
+
+remark()
+  .use({
+    settings: {commonmark: true, emphasis: '*', strong: '*'}
+  })
+  .process('_Emphasis_ and __importance__', function(err, file) {
+    if (err) throw err
+    console.log(String(file))
+  })
+```
+
+Yields:
+
+```markdown
+*Emphasis* and **importance**
+```
 
 ## License
 
-[MIT](license) © [Titus Wormer](https://wooorm.com)
+[MIT][license] © [Titus Wormer][author]
 
 <!-- Definitions -->
-
-[logo]: https://raw.githubusercontent.com/remarkjs/remark/4f6b3d7/logo.svg?sanitize=true
 
 [build-badge]: https://img.shields.io/travis/remarkjs/remark.svg
 
@@ -119,44 +173,30 @@ creating an issue in the [`remarkjs/ideas`][ideas] repository!
 
 [backers-badge]: https://opencollective.com/unified/backers/badge.svg
 
-[api]: https://github.com/remarkjs/remark/tree/master/packages/remark
+[license]: https://github.com/remarkjs/remark/blob/master/license
 
-[parse]: https://github.com/remarkjs/remark/tree/master/packages/remark-parse
+[author]: https://wooorm.com
 
-[stringify]: https://github.com/remarkjs/remark/tree/master/packages/remark-stringify
+[npm]: https://docs.npmjs.com/cli/install
 
-[cli]: https://github.com/remarkjs/remark/tree/master/packages/remark-cli
-
-[plugins]: https://github.com/remarkjs/remark/tree/master/doc/plugins.md
-
-[remark-lint]: https://github.com/remarkjs/remark-lint
-
-[remark-react]: https://github.com/mapbox/remark-react
-
-[remark-toc]: https://github.com/remarkjs/remark-toc
-
-[remark-man]: https://github.com/remarkjs/remark-man
+[remark]: https://github.com/remarkjs/remark
 
 [unified]: https://github.com/unifiedjs/unified
 
-[website]: https://unifiedjs.github.io
+[mdast]: https://github.com/syntax-tree/mdast
 
-[guides]: https://unified.js.org/#guides
+[parse]: https://github.com/remarkjs/remark/blob/master/packages/remark-parse
 
-[contribute]: #contribute
+[stringify]: https://github.com/remarkjs/remark/blob/master/packages/remark-stringify
 
-[contributing]: contributing.md
+[plugins]: https://github.com/remarkjs/remark/blob/master/doc/plugins.md
 
-[coc]: code-of-conduct.md
+[unified-usage]: https://github.com/unifiedjs/unified#usage
 
-[ideas]: https://github.com/remarkjs/ideas
+[preset]: https://github.com/unifiedjs/unified#preset
 
-[awesome]: https://github.com/remarkjs/awesome
+[data]: https://github.com/unifiedjs/unified#processordatakey-value
 
 [collective]: https://opencollective.com/unified
 
-[medium]: https://medium.com/unifiedjs
-
 [announcement]: https://medium.com/unifiedjs/collectively-evolving-through-crowdsourcing-22c359ea95cc
-
-[twitter]: https://twitter.com/unifiedjs

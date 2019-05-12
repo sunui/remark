@@ -1,74 +1,57 @@
 {
-  "private": true,
+  "name": "remark",
+  "version": "10.0.1",
+  "description": "Markdown processor powered by plugins",
   "license": "MIT",
+  "keywords": [
+    "markdown",
+    "abstract",
+    "syntax",
+    "tree",
+    "ast",
+    "parse",
+    "stringify",
+    "process"
+  ],
   "homepage": "https://remark.js.org",
-  "repository": "https://github.com/remarkjs/remark",
+  "repository": "https://github.com/remarkjs/remark/tree/master/packages/remark",
   "bugs": "https://github.com/remarkjs/remark/issues",
-  "devDependencies": {
-    "bail": "^1.0.0",
-    "browserify": "^16.0.0",
-    "bundle-collapser": "^1.3.0",
-    "camelcase": "^5.0.0",
-    "clone": "^2.0.0",
-    "lerna": "^3.0.0",
-    "mdast-util-assert": "^2.0.0",
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "unified": "^7.0.0",
+    "ccount": "^1.0.0",
+    "is-alphanumeric": "^1.0.0",
+    "longest-streak": "^2.0.1",
+    "markdown-table": "^1.1.0",
     "mdast-util-compact": "^1.0.0",
-    "mdast-zone": "^3.0.1",
-    "nyc": "^13.0.0",
-    "prettier": "^1.14.3",
-    "remark-preset-wooorm": "^4.0.0",
-    "tape": "^4.5.1",
-    "tinyify": "^2.4.3",
-    "unist-builder": "^1.0.2",
-    "unist-util-remove-position": "^1.1.0",
-    "xo": "^0.23.0"
+    "stringify-entities": "^1.0.1",
+    "collapse-white-space": "^1.0.2",
+    "is-alphabetical": "^1.0.0",
+    "is-decimal": "^1.0.0",
+    "is-whitespace-character": "^1.0.0",
+    "is-word-character": "^1.0.0",
+    "markdown-escapes": "^1.0.0",
+    "parse-entities": "^1.1.0",
+    "repeat-string": "^1.5.4",
+    "state-toggle": "^1.0.0",
+    "trim": "0.0.1",
+    "trim-trailing-lines": "^1.0.0",
+    "unherit": "^1.0.4",
+    "unist-util-remove-position": "^1.0.0",
+    "vfile-location": "^2.0.0",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "tape": "^4.9.1"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --no-ci",
-    "format": "packages/remark-cli/cli.js . -qfo && prettier --write '**/*.js' && xo --fix",
-    "build-bundle": "browserify packages/remark -s remark > remark.js",
-    "build-mangle": "browserify packages/remark -s remark -p tinyify > remark.min.js",
-    "build": "npm run build-bundle && npm run build-mangle",
-    "test-api": "tape packages/*/test.js test/index.js",
-    "test-api-extensive": "TEST_EXTENDED=true npm run test-api",
-    "test-coverage": "nyc --reporter lcov tape \"test/index.js\" \"packages/*/test.js\"",
-    "test": "npm run format && npm run build && npm run test-coverage"
+    "test": "tape test.js"
   },
-  "nyc": {
-    "check-coverage": true,
-    "lines": 100,
-    "functions": 100,
-    "branches": 100
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
-  },
-  "xo": {
-    "prettier": true,
-    "esnext": false,
-    "rules": {
-      "import/no-unassigned-import": "off",
-      "unicorn/prefer-type-error": "off",
-      "unicorn/escape-case": "off",
-      "eqeqeq": "off",
-      "guard-for-in": "off",
-      "max-depth": "off",
-      "complexity": "off",
-      "no-eq-null": "off"
-    },
-    "ignores": [
-      "remark.js"
-    ]
-  },
-  "remarkConfig": {
-    "plugins": [
-      "./script/list-of-methods",
-      "preset-wooorm"
-    ]
-  }
+  "xo": false
 }
