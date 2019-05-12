@@ -1,8 +1,8 @@
 'use strict'
 
 var unified = require('unified')
-var parse = require('./packages/remark-parse')
-var stringify = require('./packages/remark-stringify')
+var parse = require('./lib/remark-parse')
+var stringify = require('./lib/remark-stringify')
 
 module.exports = unified()
   .use(parse)
